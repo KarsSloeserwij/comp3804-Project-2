@@ -1,0 +1,14 @@
+{
+  "name": "comp3804",
+  "version": "1.0.0",
+  "description": "project part 2",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "kars",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
