@@ -31,11 +31,16 @@
 	squareConnections.push({x:60,y:0,connected:false, connectedToPoint: null});
 	squareConnections.push({x:60,y:60,connected:false, connectedToPoint: null});
 
+	var triangleConnections = [];
+	triangleConnections.push({x:30,y:0,connected:false, connectedToPoint: null});
+	triangleConnections.push({x:0,y:60,connected:false, connectedToPoint: null});
+	triangleConnections.push({x:60,y:60,connected:false, connectedToPoint: null});
 
 
 	shapes.push({shapeName:"square",width:60,height:60,fill:"green", connectionPoints:squareConnections});
 	shapes.push({shapeName:"circle",width:30,height:60,fill:"red", connectionPoints:squareConnections});
 	shapes.push({shapeName:"triangle",width:60,height:60,fill:"#444444", connectionPoints:squareConnections});
+	shapes.push({shapeName:"octagon",width:60,height:60,fill:"#444444", connectionPoints:squareConnections});	
 
 	// an array of objects that define different rectangles
 	var selectedShapes=[];
@@ -77,9 +82,38 @@
 	    	console.log(r);
 	    	ctx.fillStyle=r.fill;
 	    	drawShapes(r.x,r.y,r.width,r.height, r.connectionPoints, r.shapeName);
-
+	    	ctx.fillStyle="white";
+	    	ctx.font = "20px Arial";
+			ctx.fillText("" + i, r.x + r.width/2 , r.y + r.height/2 );
+			console.log("draw text")
 	    	ctx.stroke();
 	    }
+	}
+
+	function createOctagon(x, y, s){
+		console.log('x',x);
+		console.log('y',y);
+		console.log('size', s);
+		console.log('octa_short', short);
+		console.log('octa_long', long);
+		ctx.fillStyle="#444444";
+
+		var short = 0.29289321881345247559915563789515;
+		var long = 1 - short;
+
+
+		ctx.beginPath();
+		ctx.moveTo(x + s * short, y);
+		ctx.lineTo(x, y + s * short);
+		ctx.lineTo(x, y + s * long);
+		ctx.lineTo(x + s * short, y + s);
+		ctx.lineTo(x + s * long, y + s);
+		ctx.lineTo(x + s, y +  s * long);
+		ctx.lineTo(x + s, y + s * short);
+		ctx.lineTo(x + s * long, y);
+		ctx.lineTo(x + s * short, y);
+		ctx.fill();
+		
 	}
 
 	function drawShapes(x,y,w,h,c,s) {
@@ -104,6 +138,8 @@
 		    ctx.lineTo(x, y + h);
 		    ctx.lineTo(x + w, y + h);
 		    ctx.fill();
+		}else if(s=="octagon"){
+			createOctagon(x, y, w)
 		}
 
 		for(var i=0;i<c.length;i++){
@@ -120,7 +156,7 @@
 
 	function drawConnectionPoint(x,y){
 		ctx.beginPath();
-		ctx.arc(x, y, 5, 0, 2 * Math.PI);
+		ctx.arc(x, y, 4, 0, 2 * Math.PI);
 		ctx.fill();
 		ctx.stroke();
 	}
@@ -132,6 +168,40 @@
 		ctx.clearRect(0, 0, WIDTH, HEIGHT);
 	}
 
+	function addShape(shape){
+
+		selectedShapes.push({
+		    x: 80,
+		    y: 100,
+		    width: 60,
+		    height: 60,
+		    fill: "#444444",
+		    isDragging: false,
+		    connectionPoints: [],
+		    shapeName: shape,
+		    id: selectedShapes.length
+		});
+
+		var t = selectedShapes[selectedShapes.length-1].connectionPoints;
+
+		if(shape == "triangle"){
+			for (var j = 0, len = triangleConnections.length; j < len; j++) {
+			    t[j] = {}; // empty object to hold properties added below
+			    for (var prop in triangleConnections[j]) {
+			        t[j][prop] = triangleConnections[j][prop]; 
+			    }
+			}
+		}else{
+			for (var j = 0, len = squareConnections.length; j < len; j++) {
+			    t[j] = {}; // empty object to hold properties added below
+			    for (var prop in squareConnections[j]) {
+			        t[j][prop] = squareConnections[j][prop]; 
+			    }
+			}
+		}
+
+
+	}
 
 
 
@@ -158,29 +228,11 @@
 					newShapeName = "triangle";
 				}
 				else if(currentPair == "11"){
-					newShapeName = "square";
+					newShapeName = "octagon";
 				}
 		
-				selectedShapes.push({
-				    x: 80,
-				    y: 100,
-				    width: 60,
-				    height: 60,
-				    fill: "#444444",
-				    isDragging: false,
-				    connectionPoints: [],
-				    shapeName: newShapeName,
-				    id: selectedShapes.length
-				});
 
-				var t = selectedShapes[selectedShapes.length-1].connectionPoints;
-
-				for (var j = 0, len = squareConnections.length; j < len; j++) {
-				    t[j] = {}; // empty object to hold properties added below
-				    for (var prop in squareConnections[j]) {
-				        t[j][prop] = squareConnections[j][prop]; 
-				    }
-				}
+				addShape(newShapeName);
 
 				firstShape = selectedShapes[selectedShapes.length-1];
 				
@@ -202,29 +254,10 @@
 					newShapeName = "triangle";
 				}
 				else if(currentPair == "11"){
-					newShapeName = "square";
+					newShapeName = "octagon";
 				}
 
-				selectedShapes.push({
-				    x: 0,
-				    y: 0,
-				    width: 60,
-				    height: 60,
-				    fill: "#444444",
-				    isDragging: false,
-				    connectionPoints: [],
-				    shapeName: newShapeName,
-				    id: selectedShapes.length
-				});
-
-				var t = selectedShapes[selectedShapes.length-1].connectionPoints;
-
-				for (var j = 0, len = squareConnections.length; j < len; j++) {
-				    t[j] = {}; // empty object to hold properties added below
-				    for (var prop in squareConnections[j]) {
-				        t[j][prop] = squareConnections[j][prop]; 
-				    }
-				}
+				addShape(newShapeName);
 
 				secondShape = selectedShapes[selectedShapes.length-1];
 			}

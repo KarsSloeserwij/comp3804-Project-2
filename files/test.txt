@@ -1,1 +1,1 @@
-password,10011010move,0,triangle,212move,1,triangle,153move,0,triangle,296move,1,triangle,232move,0,triangle,251move,1,triangle,187move,0,triangle,383move,1,triangle,324move,0,triangle,125move,0,triangle,353move,1,triangle,289move,0,triangle,412move,1,triangle,355
+password,10011101move,0,square,346move,1,circle,212move,0,square,384move,0,square,357move,1,circle,194
