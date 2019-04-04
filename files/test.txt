@@ -1,1 +1,1 @@
-password,10011101move,0,square,346move,1,circle,212move,0,square,384move,0,square,357move,1,circle,194
+password,01000101move,0,circle,182move,0,square,373
