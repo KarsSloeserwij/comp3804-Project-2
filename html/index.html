@@ -1,4 +1,3 @@
-<!doctype html>
 <html>
 
 <style>
@@ -204,9 +203,9 @@ function poppwdwindow(formid, el) {
 
   if (f == "Create") {
 
-        lastform.event="Create account"
+    lastform.event="Create account"
 
-        createPassword(formid);
+    createPassword(formid);
   } else if (f == "Enter"){
     // data attribute for password
     var count = parseInt($("#"+formid).attr('data-times')) + 1;
