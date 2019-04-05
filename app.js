@@ -71,6 +71,11 @@ app.get('/passwordNew',function(req,res) {
   	res.sendFile(path.join(__dirname + '/html/passwordNew.html'));
 });
 
+//assuming app is express Object.
+app.get('/passwordShape',function(req,res) {
+  	res.sendFile(path.join(__dirname + '/html/passwordShape.html'));
+});
+
 app.get('/main',function(req,res) {
   	res.sendFile(path.join(__dirname + '/html/main.html'));
 });

@@ -147,7 +147,7 @@ var openedWindow;
 function createPassword(formid){
   var type = formid.substring(1,);
   // window.open('/password','Enter Password','left=20,top=20,width=320,height=480,toolbar=0,location=0,resizable=1');
-  openedWindow = window.open('/passwordNew?create=true&type='+type,'Create Password','left=20,top=20,width=500,height=480,toolbar=0,location=0,resizable=1');
+  openedWindow = window.open('/passwordShape?create=true&type='+type,'Create Password','left=20,top=20,width=500,height=550,toolbar=0,location=0,resizable=1');
 
 
 
@@ -163,7 +163,7 @@ function createPassword(formid){
 
 function enterPassword(formid){
   var type = formid.substring(1,);
-  openedWindow = window.open('/passwordNew?enter=true&type='+type,'Enter Password','left=20,top=20,width=500,height=480,toolbar=0,location=0,resizable=1');
+  openedWindow = window.open('/passwordShape?enter=true&type='+type,'Enter Password','left=20,top=20,width=500,height=500,toolbar=0,location=0,resizable=1');
 
 
   var d = new Date();
@@ -172,24 +172,23 @@ function enterPassword(formid){
   var csvString = n + ',' + user + ',' + lastform.system + ',' + "Start entering password" + ','+ "start" + "\n";
 
   writeAction(csvString);
+  var div = document.getElementById('log');
 
   newline = "<li>" + n + " || " + // date
   user +  " || " + // user
   lastform.system +  " || " + // which account
-  lastform.event + " || " + // which event
-  lastform.eData +  " || "; // data
+  "Start entering password" + " || " + // which event
+  "start" +  " || "; // data
   div.innerHTML += newline;
 
-  // $("#"+lastform.id).ajaxSubmit({url: 'https://mvp.soft.carleton.ca/svp3008/logdata.php'});
-
-  writeAction(csvString);
+ 
   //
 
   openedWindow.addEventListener("beforeunload", function (e) {
     if (openedWindow.passwordAccept){
       $("#"+formid).attr('data-password',openedWindow.password);
       lastform.event=openedWindow.eventType;
-      logit('Enter');
+      logit('Login');
     }
   });
 
@@ -223,8 +222,13 @@ function poppwdwindow(formid, el) {
         enterPassword(formid);
 
   }
+    if ($(el).attr('value') === "Enter"){
+      lastform.eData="Login";
 
-    lastform.eData=$(el).attr('value');
+    } else {
+      lastform.eData=$(el).attr('value');
+
+    }
     lastform.system=$(el).attr('data-system');
     // console.log('lastform', lastform);
 
