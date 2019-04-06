@@ -168,7 +168,7 @@ function enterPassword(formid){
   var d = new Date();
   var n = d.toISOString();
 
-  var csvString = n + ',' + user + ',' + lastform.system + ',' + "Start entering password" + ','+ "start" + "\n";
+  var csvString = n + ',' + user + ',' + lastform.system + ',' + "start" + ','+ "enter" + "\n";
 
   writeAction(csvString);
   var div = document.getElementById('log');
@@ -176,8 +176,8 @@ function enterPassword(formid){
   newline = "<li>" + n + " || " + // date
   user +  " || " + // user
   lastform.system +  " || " + // which account
-  "Start entering password" + " || " + // which event
-  "start" +  " || "; // data
+  "start" + " || " + // which event
+  "enter" +  " || "; // data
   div.innerHTML += newline;
 
  
@@ -187,7 +187,7 @@ function enterPassword(formid){
     if (openedWindow.passwordAccept){
       $("#"+formid).attr('data-password',openedWindow.password);
       lastform.event=openedWindow.eventType;
-      logit('Login');
+      logit('login');
     }
   });
 
@@ -222,10 +222,10 @@ function poppwdwindow(formid, el) {
 
   }
     if ($(el).attr('value') === "Enter"){
-      lastform.eData="Login";
+      lastform.eData="login";
 
     } else {
-      lastform.eData=$(el).attr('value');
+      lastform.eData=$(el).attr('value').toLowerCase();
 
     }
     lastform.system=$(el).attr('data-system');
