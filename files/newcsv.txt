@@ -1,15 +1,9 @@
-2019-04-06T16:09:12.332Z,wkebx137,Email,Create account,Create
-2019-04-06T16:10:11.766Z,wkebx137,Banking,Create account,Create
-2019-04-06T16:10:14.522Z,wkebx137,Shopping,Create account,Create
-2019-04-06T16:10:15.800Z,wkebx137,Shopping,Start entering password,start
-2019-04-06T16:10:48.983Z,wkebx137,Shopping,Start entering password,start
-2019-04-06T16:10:52.069Z,wkebx137,Shopping,Failed,Login
-2019-04-06T16:52:28.188Z,kpncm755,Email,Create account,Create
-2019-04-06T16:52:30.319Z,kpncm755,Banking,Create account,Create
-2019-04-06T16:52:32.578Z,kpncm755,Shopping,Create account,Create
-2019-04-06T16:52:34.018Z,kpncm755,Shopping,Start entering password,start
-2019-04-06T17:28:15.334Z,khfed202,Email,Create account,create
-2019-04-06T17:28:17.384Z,khfed202,Banking,Create account,create
-2019-04-06T17:28:19.342Z,khfed202,Shopping,Create account,create
-2019-04-06T17:28:20.569Z,khfed202,Shopping,start,enter
-2019-04-06T17:28:22.959Z,khfed202,Banking,failure,login
+2019-04-06T17:33:46.917Z,gvqmg406,Email,Create account,create
+2019-04-06T17:34:18.879Z,gvqmg406,Banking,Create account,create
+2019-04-06T17:35:11.860Z,gvqmg406,Shopping,Create account,create
+2019-04-06T17:35:14.739Z,gvqmg406,Shopping,start,enter
+2019-04-06T17:35:42.745Z,gvqmg406,Email,success,login
+2019-04-06T17:35:44.678Z,gvqmg406,Email,start,enter
+2019-04-06T17:36:52.474Z,gvqmg406,Shopping,failure,login
+2019-04-06T17:36:55.449Z,gvqmg406,Shopping,start,enter
+2019-04-06T17:37:22.514Z,gvqmg406,Banking,failure,login
