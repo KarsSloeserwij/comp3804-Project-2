@@ -236,6 +236,7 @@ function poppwdwindow(formid, el) {
 
 
 
+
 function logit(event,data="") {
 
   if (data=="") data = navigator.userAgent;
@@ -244,21 +245,26 @@ function logit(event,data="") {
 
   var d = new Date();
   var n = d.toISOString();
-
-  var csvString = n + ',' + user + ',' + lastform.system + ',' + lastform.event + ','+ lastform.eData + "\n";
+  lastform.data = data;
+  
+  var csvString = n + ',' + user + ',' + lastform.system + ',' + lastform.event + ','+ lastform.eData + ',' + data"\n";
 
   newline = "<li>" + n + " || " + // date
   user +  " || " + // user
   lastform.system +  " || " + // which account
   lastform.event + " || " + // which event
-  lastform.eData +  " || "; // data
+  lastform.eData +  " || " +
+  lastform.data; // data
   div.innerHTML += newline;
+
+  console.log(lastform);
 
   // $("#"+lastform.id).ajaxSubmit({url: 'https://mvp.soft.carleton.ca/svp3008/logdata.php'});
 
   writeAction(csvString);
 
 }
+
 
 function writeAction(s){
     $.post("writeFileNew", { "string": s}, function(data, status){
