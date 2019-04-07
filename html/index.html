@@ -1,3 +1,35 @@
+<!--
+
+This file serves as our testing framework for the application
+
+
+List of functions and what they do:
+===================================
+randomFixedInteger(length) - generates a random string of integers: used to generate a random integer set for the user
+
+generate_random_string(string_length) - generates a random string of a given length: used to generate a random string for the user
+
+mkenter(name) - this is used to randomly create the enter account passwords
+
+createPassword(formid) - this is used to open the passwordShape window and will get the resulting data from that window to allow the user to go to the next section and to save the password inputted
+
+enterPassword(formid) - this is used to open the passwordShape window and will get the resulting data from the window to allow the user to go the next section as well as check if the password inputted by the user is correct
+
+poppwdwindow(formid, el) - this is used to control the create and enter password functions and is called from the onclick events of the buttons
+
+logit(event,data="") - this is used to log the data to the bottom of the page and to the file
+
+writeAction(s) - this is the function that calls the restful service to write to the log file
+
+shuffle(array) - this is a randomizer used to randomly input the accounts in the enter section
+
+disform(n) - this is used to disable the buttons when stepping through the testing framework
+
+enform(n) - this is used to enable the buttons when stepping through the testing framework
+
+nextstep(el) - this is the main function that controls the next step functions enform and disform
+
+-->
 <html>
 
 <style>
@@ -18,35 +50,25 @@
 
 <body>
 
-<div id="template-p" style="display:none">
+<!-- HTML component, has the header with a randomized user-->
+<div id="greeting"><h2> Password Tester</h2> <h3> User: <span id='userid'>Test</span></h3> <h3> Scheme: Panther scheme</h3><hr></div>
 
-  <form id="pwdform" action="password.html" method="post" target="pwdwindow">
-    <input type="button" disabled="" value="MODE" onclick="poppwdwindow('pwdform');">
-    <input type="button" disabled="" value="Next" onclick="nextstep()">
-    <input type="hidden" name="system" id="system" value="Shopping">
-    <input type="hidden" name="user" id="user" value="svp525941">
-    <input type="hidden" name="mode" id="mode" value="enter">
-    <input type="hidden" name="scheme" id="scheme" value="textrandom">
-    <input type="hidden" name="condition" id="condition" value="az09-5">
-    <input type="hidden" name="event" id="event" value="">
-    <input type="hidden" name="data" id="data" value="">
-    <input type="hidden" name="password" id="password" value="">
-    <input type="hidden" name="reference" id="reference" value="">
-    <input type="hidden" name="count" id="count" value="0">
-  </form>
-</div>
 
-<div id="greeting"><h2> Password Tester</h2> <h3> User: <span id='userid'>Test</span></h3> <h3> Scheme: Name of our scheme</h3><hr></div>
+<!-- Creation for email -->
 
 <div id="svpcEmail" style="display: block; pointer-events: all; background-color: lightgreen;">Create Password for: <b>Email</b>
 
     <input type="button" data-system="Email" value="Create" id="cEmail" data-password="" onclick="poppwdwindow('cEmail', this);">
     <input type="button" value="Next" onclick="nextstep(this)">
 
+<!-- Creation for banking -->
+
 </div><div id="svpcBanking" style="display:block;pointer-events:none;background-color: gray;">Create Password for: <b>Banking</b>
 
     <input type="button" data-system="Banking" disabled="" id="cBanking"  data-password="" value="Create" onclick="poppwdwindow('cBanking', this);">
     <input type="button" disabled="" value="Next" onclick="nextstep(this)">
+
+<!-- Creation for shopping -->
 
 </div><div id="svpcShopping" style="display:block;pointer-events:none;background-color: gray;">Create Password for: <b>Shopping</b>
 
@@ -57,10 +79,12 @@
 
 <div><hr></div>
 
+<!-- Entry randomized container -->
 <div id="randomizeDiv">
 
 </div>
 
+<!-- Logging container -->
 <div id="logdiv">
 
 <hr>
@@ -79,6 +103,7 @@
 
 <script>
 
+
 var randomFixedInteger = function (length) {
     return Math.floor(Math.pow(10, length-1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length-1) - 1));
 }
@@ -94,7 +119,6 @@ function generate_random_string(string_length){
     return random_string
 }
 
-// var lastform = "";
 
 var lastform = {
   event: "",
@@ -102,7 +126,6 @@ var lastform = {
   system: ""
 }
 
-greet = document.getElementById("greeting");
 var user = generate_random_string(5) + randomFixedInteger(3);
 // do random user
 $('#userid').text(user);
@@ -132,12 +155,12 @@ function mkenter(name) {
   newdiv.setAttribute("id", "svpe" + name);
   newdiv.setAttribute("class", "not-highlighted");
 
+  // html string for the entry account set
   var htmlString = '<input type="button" data-system="'+name+'" disabled="" id="e'+name+'" data-times="0" data-password="" value="Enter" onclick="poppwdwindow(\'e'+name+'\', this);">'+
     '<input type="button" disabled="" value="Next" onclick="nextstep(this)">';
-  // pf = document.getElementById('template-p').innerHTML;
-
 
   newdiv.innerHTML = "Enter Password for: <B>" + name + "</B> (3 Attempts Allowed)" + htmlString;
+  // append element to randomize div 
   document.getElementById("randomizeDiv").appendChild(newdiv);
 }
 
@@ -145,11 +168,12 @@ var globalPassword;
 var openedWindow;
 function createPassword(formid){
   var type = formid.substring(1,);
-  // window.open('/password','Enter Password','left=20,top=20,width=320,height=480,toolbar=0,location=0,resizable=1');
+
+  // open window in the passwordshape with specific type param (which would be the account) for create
   openedWindow = window.open('/passwordShape?create=true&type='+type,'Create Password','left=20,top=20,width=500,height=550,toolbar=0,location=0,resizable=1');
 
 
-
+  // add event listener so on close it will write back to the parent window
   openedWindow.addEventListener("beforeunload", function (e) {
 
     if (openedWindow.passwordAccept){
@@ -162,6 +186,8 @@ function createPassword(formid){
 
 function enterPassword(formid){
   var type = formid.substring(1,);
+
+    // open window in the passwordshape with specific type param (which would be the account) for enter
   openedWindow = window.open('/passwordShape?enter=true&type='+type,'Enter Password','left=20,top=20,width=500,height=500,toolbar=0,location=0,resizable=1');
 
 
@@ -170,6 +196,7 @@ function enterPassword(formid){
 
   var csvString = n + ',' + user + ',' + lastform.system + ',' + "start" + ','+ "enter" + "\n";
 
+  // write to log file
   writeAction(csvString);
   var div = document.getElementById('log');
 
@@ -181,8 +208,7 @@ function enterPassword(formid){
   div.innerHTML += newline;
 
  
-  //
-
+    // add event listener so on close it will write back to the parent window
   openedWindow.addEventListener("beforeunload", function (e) {
     if (openedWindow.passwordAccept){
       $("#"+formid).attr('data-password',openedWindow.password);
@@ -199,7 +225,6 @@ function enterPassword(formid){
 
 function poppwdwindow(formid, el) {
   f= $(el).val();
-  // console.log('check value', f);
 
   if (f == "Create") {
 
@@ -208,16 +233,17 @@ function poppwdwindow(formid, el) {
     createPassword(formid);
   } else if (f == "Enter"){
     // data attribute for password
+    // iterate counts
     var count = parseInt($("#"+formid).attr('data-times')) + 1;
-    // console.log('count', count);
      $("#"+formid).attr('data-times',count); // add 1 to update
 
      // console.log('enter state');
+
+     // only let them have 3 attemps
     if (count > 3) {
           alert("Sorry, no more than 3 attempts allowed.");
           return;
       }
-        // window.open('','pwdwindow','left=20,top=20,width=320,height=480,toolbar=0,location=0,resizable=1');
         enterPassword(formid);
 
   }
@@ -229,7 +255,6 @@ function poppwdwindow(formid, el) {
 
     }
     lastform.system=$(el).attr('data-system');
-    // console.log('lastform', lastform);
 
 
 }
@@ -249,6 +274,7 @@ function logit(event,data="") {
   
   var csvString = n + ',' + user + ',' + lastform.system + ',' + lastform.event + ','+ lastform.eData + ',' + data + "\n";
 
+  // write to bottom of page
   newline = "<li>" + n + " || " + // date
   user +  " || " + // user
   lastform.system +  " || " + // which account
@@ -257,10 +283,8 @@ function logit(event,data="") {
   lastform.data; // data
   div.innerHTML += newline;
 
-  console.log(lastform);
 
-  // $("#"+lastform.id).ajaxSubmit({url: 'https://mvp.soft.carleton.ca/svp3008/logdata.php'});
-
+  // write to log file
   writeAction(csvString);
 
 }
@@ -291,18 +315,17 @@ function shuffle(array) {
   return array;
 }
 
-var randomFixedInteger = function (length) {
-    return Math.floor(Math.pow(10, length-1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length-1) - 1));
-}
 
 function disform(n) {
     steps[n].style= "display:block;pointer-events:none;background-color: lightgray;";
+    // disable step at this id
     $("#" + steps[n].id + " :button").prop("disabled", true);
 }
 
 
 function enform(n) {
    steps[stepn].style= "display:block;pointer-events:all;background-color: lightgreen;";
+   // enable step at this id
     $("#" + steps[n].id + " :button").prop("disabled", false);
     divname = steps[n].id;
     formname =  divname.replace("svp", "form");
@@ -312,11 +335,11 @@ function enform(n) {
 
 
 function nextstep(el) {
-  // console.log('step', stepn);
   if (stepn >= 0) {
 
       var lastStep = $(el).prev().attr("data-password");
 
+      // will check if last step has been done yet
       if (lastStep == "") {
         alert("Sorry, step not completed. Please try again.");
         return;
